@@ -1,0 +1,7 @@
+Device      HAT     I2C_Addr Note
+BME680      qwiic   0x77     Air Quality Sensor
+VEML6030    qwiic   0x48     Ambient Light Sensor
+SGP40       qwiic   0x58     Air Quality Sensor, not detectable
+HDC108      PMOD    0x40     PMOD HYGRO, temp/humidity
+CCS811      PMOD    0x5b     PMOD AQS (Air Quality)
+ADC081S021  PMOD    SPI      PMOD ALS (Light) 
