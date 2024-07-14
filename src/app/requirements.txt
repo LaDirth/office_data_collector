@@ -1,0 +1,5 @@
+pmodhygro
+board
+adafruit_bme680
+fastapi
+pprint
