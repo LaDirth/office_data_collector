@@ -18,3 +18,5 @@ This is the repo to collect environmental data from my office using a Raspberry 
 | `SparkFun Qwiic Cable Kit` | From another project  | <https://www.sparkfun.com/products/15081> |
 
 ## Host Setup
+
+Run `sudo raspi-config` and enable I2c, SPI, and Remote GPIO.

@@ -1,5 +1,4 @@
 pmodhygro
 board
-adafruit_bme680
+adafruit-circuitpython-bme680
 fastapi
-pprint
