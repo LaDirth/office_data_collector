@@ -20,3 +20,4 @@ This is the repo to collect environmental data from my office using a Raspberry 
 ## Host Setup
 
 Run `sudo raspi-config` and enable I2c, SPI, and Remote GPIO.
+Read <os_tweaks\README.MD> for additional config.
