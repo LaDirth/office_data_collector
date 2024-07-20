@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: office-data-collector
+  labels:
+    pod-security.kubernetes.io/enforce: privileged # Needed because the i2c calls need root
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: office-data-collector
+  namespace: office-data-collector
+  labels:
+    name: office-data-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: office-data-collector
+  template:
+    metadata:
+      labels:
+        name: office-data-collector
+    spec:
+      containers:
+        - name: office-data-collector
+          image: docker.io/library/office_data_collector:0.0.1
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /dev
+              name: hostDev
+              readOnly: false
+      volumes:
+      - name: hostDev
+        hostPath:
+          path: /dev
+          type: Directory
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: office-colllector-service
+spec:
+  selector:
+    app: office-colllector
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+      nodePort: 30000
+  type: NodePort
