@@ -32,10 +32,10 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /dev
-              name: hostDev
+              name: host-slash-dev
               readOnly: false
       volumes:
-      - name: hostDev
+      - name: host-slash-dev
         hostPath:
           path: /dev
           type: Directory
