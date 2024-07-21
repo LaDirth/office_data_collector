@@ -1,0 +1,13 @@
+[Unit]
+Description=Office Data Collector
+After=network.target
+StartLimitIntervalSec=0[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/var/local/office-data-collector/bin/fastapi dev /var/local/office-data-collector/app.py
+Environment="PATH=/var/local/office-data-collector/bin"
+
+[Install]
+WantedBy=multi-user.target
