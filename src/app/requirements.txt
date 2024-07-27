@@ -2,3 +2,4 @@ pmodhygro
 board
 adafruit-circuitpython-bme680
 fastapi
+wheel

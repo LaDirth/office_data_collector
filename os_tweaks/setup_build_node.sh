@@ -17,7 +17,7 @@ echo "@@@@@@@@@@@@@@@@@@@@@@@@@@"
 
 sudo cp $SCRIPTPATH/boot/firmware/config.txt /boot/firmware/config.txt
 sudo cp $SCRIPTPATH/etc/dphys-swapfile /etc/dphys-swapfile
-sudo apt install python3-venv i2c-tools raspi-gpio python3-full -y
+sudo apt install python3-venv i2c-tools raspi-gpio python3-full python3-dev -y
 
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@"
 echo "Installing App"

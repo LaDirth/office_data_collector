@@ -1,7 +1,6 @@
 # App to get office environmental data
 
 import json
-import datetime
 import os
 import logging
 import time
@@ -14,6 +13,7 @@ import board
 import adafruit_bme680
 
 from fastapi import FastAPI
+from fastapi_cache.decorator import cache
 
 app = FastAPI()
 
@@ -34,8 +34,9 @@ bme680.sea_level_pressure = 1013.25
 # separate temperature sensor to calibrate this one.
 bme680_temperature_offset = 0
 
-@app.get("/")
-def main():
+@cache(expire=1)  # Cache data for 1 seconds
+
+def get_data():
     '''
     Processes the various sensor data.
     '''
@@ -57,7 +58,19 @@ def main():
     office_environment_data["bme680_gas_ohms"]         = bme680.gas
     
     pprint(office_environment_data)
+    now=time.now() 
+    # filename = f"{now.tm_year}{now.tm_mon:0>2d}"
+    filename = f"{now.tm_year}{now.tm_mon:0>2d}{now.tm_hour:0>2d}{now.tm_min:0>2d}{now.tm_sec:0>2d}"
+    with open(f"filename.json") as file:
+        file.writelines(office_environment_data)
+        
     return json.dumps(office_environment_data)
+
+@app.get("/")
+async def main():
+    return get_data()
+
+
 
 if __name__ == "__main__":
     main()
