@@ -21,3 +21,8 @@ This is the repo to collect environmental data from my office using a Raspberry 
 
 Run `sudo raspi-config` and enable I2c, SPI, and Remote GPIO.
 Read <os_tweaks\README.MD> for additional config.
+
+## Rapsberry Pi Pico W
+
+The data collector has been migrated to a Raspberry Pi Pico W.
+See [./picow/README.md](./picow/README.md)
