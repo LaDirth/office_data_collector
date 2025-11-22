@@ -1,0 +1,24 @@
+# /etc/systemd/system/prometheus.service
+[Unit]
+Description=Prometheus Monitoring
+Documentation=https://prometheus.io/docs/introduction/overview/
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+WorkingDirectory=/home/prometheus/prometheus
+Type=simple
+ExecStart=/home/prometheus/prometheus/prometheus \
+--config.file=/home/prometheus/prometheus/prometheus.yaml \
+--web.listen-address=0.0.0.0:9090 \
+--web.enable-lifecycle \
+--log.level=info
+
+
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

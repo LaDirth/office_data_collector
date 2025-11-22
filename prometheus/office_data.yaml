@@ -1,0 +1,37 @@
+modules:
+  office_climate:
+    metrics:
+      - name: bme680_pressure_hpa
+        type: gauge
+        help: "bme680 pressure in hPa"
+        path: '{ .metrics.bme680.pressure_hpa }'
+      - name: bme680_altitude_meters
+        type: gauge
+        help: "bme680 altitude in meters"
+        path: '{ .metrics.bme680.altitude_m }'
+      - name: sgp40_raw
+        type: gauge
+        help: "sgp40 raw reading"
+        path: '{ .metrics.sgp40.raw }'
+      - name: sgp40_compensated
+        type: gauge
+        help: "sgp40 compensated reading"
+        path: '{ .metrics.sgp40.compensated }'
+      - name: brightness
+        type: gauge
+        help: "ambient brightness"
+        path: '{ .metrics.brightness }'
+      - name: bme680_gas_ohms
+        type: gauge
+        help: "bme680 gas resistance in ohms"
+        path: '{ .metrics.bme680.gas_ohms }'
+      - name: bme680_temp_c
+        type: gauge
+        help: "bme680 temperature in Celsius"
+        path: '{ .metrics.bme680.temperature_c }'
+      - name: bme680_humidity
+        type: gauge
+        help: "bme680 relative humidity percent"
+        path: '{ .metrics.bme680.humidity }'
+    http_client:
+      timeout: 5s

@@ -25,4 +25,8 @@ Read <os_tweaks\README.MD> for additional config.
 ## Rapsberry Pi Pico W
 
 The data collector has been migrated to a Raspberry Pi Pico W.
-See [./picow/README.md](./picow/README.md)
+See [picow/README.md](./picow/README.md)
+
+## Prometheus and Grafana
+
+Prometheus and Grafana
