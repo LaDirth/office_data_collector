@@ -1,0 +1,20 @@
+# /etc/systemd/system/json_exporter.service
+[Unit]
+Description=json_exporter for Prometheus Monitoring
+Documentation=https://prometheus.io/docs/introduction/overview/
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+WorkingDirectory=/home/prometheus/json_exporter
+Type=simple
+ExecStart=/home/prometheus/json_exporter/json_exporter --config.file=/home/prometheus/json_exporter/json_exporter.yaml
+
+
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
