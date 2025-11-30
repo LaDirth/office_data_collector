@@ -14,10 +14,13 @@ from machine import Pin
 import ujson as json
 from board import Board
 from machine import I2C
+
 # import sensor libaries
 from veml6030 import Veml6030
 import bme680
 import sgp40
+import CCS811
+from hdc1080 import HDC1080
 
 
 BOARD_TYPE = Board().type
@@ -58,16 +61,16 @@ async def get_sensor_data(request, response):
     if devices is None:
         raise "No i2c devices found on bus!  Have you connected the correct pins?"
     else:
+        print("i2c devices: ")
         print(devices)
     
     office_environment_data = dict()
 
     # Init Veml6030
+    print("start Veml6030")
     veml6030 = Veml6030(i2c)
-    #light_in_lux = veml6030.measure_light()
-    #print("light lux: ", light_in_lux)
-    office_environment_data["brightness"]              = veml6030.measure_light()
     # Init bme680
+    print("start bme680")
     bme680_sensor = bme680.BME680_I2C(i2c)
     # You will usually have to add an offset to account for the temperature of
     # the sensor. This is usually around 5 degrees but varies by use. Use a
@@ -75,16 +78,39 @@ async def get_sensor_data(request, response):
     bme680_temperature_offset = 0
     # change this to match the location's pressure (hPa) at sea level
     bme680.sea_level_pressure = 1013.25
-    #print(dir(bme680_sensor))
+    # Init hdc1080    
+    print("start hdc1080")
+    hdc1080 = HDC1080(i2c)
+    # config humidity and temp resolution to 14 bits
+    hdc1080.config(humid_res=14, temp_res=14, mode=0, heater=0)
+    hdc1080_temp 		= hdc1080.temperature()
+    hdc1080_humidity 	= hdc1080.humidity()
+    #print(f"{hdc1080_temp} C, {hdc1080_humidity} RH")
+    
+    # Init SGP40
+    sgp40_sensor = sgp40.SGP40(i2c)
+    
+    # Init CCS811
+    #print("start CCS811")
+    #ccs881_sensor = CCS811.CCS811(i2c=i2c, addr=91)
+    #ccs881_sensor.put_envdata(humidity=h,temp=t)
+    #print(ccs881_sensor.data_ready())
+    
+    # Init json payload
+    office_environment_data["brightness"]              = veml6030.measure_light()
     office_environment_data["bme680_temp_c"]           = bme680_sensor.temperature + bme680_temperature_offset
     office_environment_data["bme680_humidity"]         = bme680_sensor.humidity
     office_environment_data["bme680_pressure_hpa"]     = bme680_sensor.pressure
     office_environment_data["bme680_altitude_meters"]  = bme680_sensor.altitude
     office_environment_data["bme680_gas_ohms"]         = bme680_sensor.gas
-    sgp40_sensor = sgp40.SGP40(i2c)
+    office_environment_data["hdc1080_temp_c"]          = hdc1080_temp
+    office_environment_data["hdc1080_humidity"]        = hdc1080_humidity
     office_environment_data["sgp40_raw"]               = sgp40_sensor.measure_raw(humidity=office_environment_data["bme680_humidity"],temperature=office_environment_data["bme680_temp_c"])
-    office_environment_data["sgp40_compensated"]       = 0 #sgp40_sensor.measure_raw(humidity=office_environment_data["bme680_humidity"],temperature=office_environment_data["bme680_temp_c"])
+    office_environment_data["sgp40_compensated"]       = 0 # sgp40_sensor.measure_raw(humidity=office_environment_data["bme680_humidity"],temperature=office_environment_data["bme680_temp_c"])
+    #office_environment_data["ccs881_eCO2"]             = ccs881_sensor.eCO2
+    #office_environment_data["ccs881_tVOC"]             = ccs881_sensor.tVOC
     
+    # debug printing
     print("brightness: ", office_environment_data["brightness"])
     print("bme680_temp_c: ", office_environment_data["bme680_temp_c"])
     print("bme680_humidity: ", office_environment_data["bme680_humidity"])
@@ -93,6 +119,8 @@ async def get_sensor_data(request, response):
     print("bme680_gas_ohms: ", office_environment_data["bme680_gas_ohms"])
     print("sgp40_raw: ", office_environment_data["sgp40_raw"])
     print("sgp40_compensated: ", office_environment_data["sgp40_compensated"])
+    print("hdc1080_temp_c: ",office_environment_data["hdc1080_temp_c"])
+    print("hdc1080_humidity: ",office_environment_data["hdc1080_humidity"])
     await response.send_json(json.dumps(office_environment_data), 200)
 
 async def say_hello(request, response, name):

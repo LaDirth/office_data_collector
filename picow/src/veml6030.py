@@ -21,7 +21,8 @@ class Veml6030:
 
     # I2C address of the VEML6030 sensor
     #I2C_ADDR = 0x10  # could be either.
-    I2C_ADDR = 72
+    # I2C_ADDR = 72 # 0x48
+    I2C_ADDR = 0x48
     I2C_BUS = 0
     # Register addresses
     # See: https://learn.sparkfun.com/tutorials/qwiic-ambient-light-sensor-veml6030-hookup-guide/all#hardware-overview
