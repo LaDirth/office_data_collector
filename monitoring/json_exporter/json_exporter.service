@@ -1,20 +1,38 @@
-# /etc/systemd/system/json_exporter.service
 [Unit]
-Description=json_exporter for Prometheus Monitoring
-Documentation=https://prometheus.io/docs/introduction/overview/
-Wants=network-online.target
-After=network-online.target
+Description=JSON Exporter for Prometheus
+Documentation= https://github.com/prometheus-community/json_exporter
+After=time-sync.target
 
 [Service]
+Restart=on-abnormal
 User=prometheus
-Group=prometheus
-WorkingDirectory=/home/prometheus/json_exporter
-Type=simple
-ExecStart=/home/prometheus/json_exporter/json_exporter --config.file=/home/prometheus/json_exporter/json_exporter.yaml
+EnvironmentFile=/etc/default/prometheus
+ExecStart=/usr/bin/json_exporter -config.file=/etc/json_exporter/json_exporter.yml
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
 
-
-Restart=on-failure
-RestartSec=5
+# systemd hardening-options
+AmbientCapabilities=
+CapabilityBoundingSet=
+DeviceAllow=/dev/null rw
+DevicePolicy=strict
+LimitMEMLOCK=0
+LockPersonality=true
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+PrivateUsers=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=full
+RemoveIPC=true
+RestrictNamespaces=true
+RestrictRealtime=true
+SystemCallArchitectures=native
 
 [Install]
 WantedBy=multi-user.target
