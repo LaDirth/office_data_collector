@@ -26,3 +26,7 @@ It does it all for you!
 6. `systemctl enable json_exporter.service` to enable the service
 7. `systemctl start json_exporter.service` to start the service
 8. `journalctl -fu json_exporter` check logs for errors
+
+## Grafana
+
+See: [https://grafana.com/docs/grafana/latest/setup-grafana/installation/debian/](https://grafana.com/docs/grafana/latest/setup-grafana/installation/debian/)
