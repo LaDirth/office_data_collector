@@ -30,3 +30,5 @@ It does it all for you!
 ## Grafana
 
 See: [https://grafana.com/docs/grafana/latest/setup-grafana/installation/debian/](https://grafana.com/docs/grafana/latest/setup-grafana/installation/debian/)
+
+!!! Ensure Grafana is enabled and started !!!
