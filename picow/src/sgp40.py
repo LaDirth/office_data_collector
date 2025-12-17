@@ -1,3 +1,5 @@
+##https://github.com/agners/micropython-sgp40/
+
 from machine import I2C
 import utime
 import struct
