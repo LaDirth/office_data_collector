@@ -29,4 +29,4 @@ See [picow/README.md](./picow/README.md)
 
 ## Prometheus and Grafana
 
-See <./dashboard> amd <./monitoring> for details
+See [monitoring](./monitoring/setup.md) for details on software setup, and dashboards are located in [dashboards](./dashboard)
