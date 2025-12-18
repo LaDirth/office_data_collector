@@ -1,4 +1,4 @@
-# office_data_collector
+# Office DataCollector
 
 ## Summary
 
@@ -29,4 +29,4 @@ See [picow/README.md](./picow/README.md)
 
 ## Prometheus and Grafana
 
-Prometheus and Grafana
+See <./dashboard> amd <./monitoring> for details
