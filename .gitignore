@@ -23,3 +23,5 @@ go.work.sum
 
 # Python cache files
 __pycache__
+sensor_tests/bme680/config.py
+config.py
