@@ -14,6 +14,8 @@ import utime as time
 import ntptime
 import uasyncio as asyncio
 import machine
+import network
+from network import WLAN
 from machine import Pin, I2C, ADC
 import ujson as json
 import template
@@ -50,13 +52,15 @@ smbus = SMBus(
     freq=I2C_FREQ
     )
 
-devices = i2c.scan()
-if devices is None:
+# Display MAC Address
+mac_bytes = network.WLAN(network.STA_IF).config('mac')
+print('mac address: ' + ':'.join('{:02x}'.format(b) for b in mac_bytes))
 
-    raise "No i2c devices found on bus!  Have you connected the correct pins?"
+devices = i2c.scan()
+if not devices:
+    raise RuntimeError("No i2c devices found on bus!  Have you connected the correct pins?")
 else:
-    print("i2c devices: ")
-    print(devices)
+    print("Found i2c devices: " + str({hex(n) for n in devices}))
 
 # Setup locks
 data_lock = asyncio.Lock()
@@ -108,7 +112,6 @@ async def read_sensors():
             sensor_data["core_temp_f"] = c_to_f(sensor_data["core_temp_c"])
         finally:
             data_lock.release()
-        # print("Sensor data updated")
         await asyncio.sleep(10)  # Read sensors every 10 seconds
 
 
@@ -124,27 +127,6 @@ async def metrics(request, response):
     metrics_data = template.generate_metrics(data)
     await response.send(metrics_data, content_type="text/plain")
     
-# async def get_time(request, response):
-#     if not server.wlan_sta.isconnected():
-#         response_string = json.dumps({"error": True, "message": "Not connected to wifi", "time": time.localtime()})
-#         await response.send_json(response_string, 200)
-#         return
-#     try:
-#         ntptime.host = "pool.ntp.org"
-#         ntptime.settime()
-#         response_string = json.dumps({"error": False, "time": time.localtime()})
-#         await response.send_json(response_string, 200)
-#     except Exception as e:
-#         response_string = json.dumps({"error": True, "message": str(e), "time": time.localtime()})
-#         await response.send_json(response_string, 200)
-
-
-# async def stop_server(request, response):
-#     global shutdown
-#     await response.send_html("Server stopping")
-#     await server.stop_server()
-#     shutdown = True
-
 async def connnect_to_wifi():
     wifi_ssid = config.WIFI_SSID.strip()
     if wifi_ssid:
@@ -161,21 +143,9 @@ async def connnect_to_wifi():
         return False
 
 
-# async def run_as_access_point(request, response):
-#     print("Running as access point")
-#     success = server.start_access_point('gurgleapps', 'gurgleapps')
-#     if success:
-#         await response.send_html("Running as access point")
-#     else:
-#         await response.send_html("Failed to run as access point")
-
-
 async def main():
     await connnect_to_wifi()
-    # print("Past Wifi")
-    # print("Setup done, starting tasks")
     asyncio.create_task(read_sensors())
-    # asyncio.create_task(blink_led())
     print("Read Sensors task started")
 
 print("starting web server")
