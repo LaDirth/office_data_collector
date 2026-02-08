@@ -73,6 +73,7 @@ sensor_data["bme680_pressure_hpa"]     = 0
 sensor_data["bme680_altitude_meters"]  = 0
 sensor_data["bme680_gas_ohms"]         = 0
 
+
 def c_to_f(c):
     """Convert Celsius to Fahrenheit."""
     return (c * 9/5) + 32
@@ -102,17 +103,19 @@ async def read_sensors():
             sensor_data["bme680_gas_ohms"] = bme680.data.gas_resistance
             sensor_data["bme680_temp_f"] = c_to_f(sensor_data["bme680_temp_c"])
             raw_cpu_temp = sensor_temp.read_u16() * conversion_factor
-             # Convert voltage to temperature (Celsius)
-            sensor_data["cpu_temp_c"] = 27 - (raw_cpu_temp - 0.706)/0.001721
-            sensor_data["cpu_temp_f"] = c_to_f(sensor_data["cpu_temp_c"])
+            # Convert voltage to temperature (Celsius)
+            sensor_data["core_temp_c"] = 27 - (raw_cpu_temp - 0.706)/0.001721
+            sensor_data["core_temp_f"] = c_to_f(sensor_data["core_temp_c"])
         finally:
             data_lock.release()
+        # print("Sensor data updated")
         await asyncio.sleep(10)  # Read sensors every 10 seconds
 
 
 async def metrics(request, response):
     global sensor_data
     global data_lock
+    print("Metrics requested")
     await data_lock.acquire()
     try:
         data = json.loads(json.dumps(sensor_data))
