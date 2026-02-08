@@ -19,10 +19,10 @@ def generate_metrics(sensor_data):
     template += "# HELP bme680_temp_f Temperature in Fahrenheit from BME680 sensor\n"
     template += "# TYPE bme680_temp_f untyped\n"
     template += 'bme680_temp_f{' + instance + 'sensor="bme680",unit="fahrenheit"} ' + str(sensor_data["bme680_temp_f"]) + '\n'
-    template += "# HELP cpu_temp_c Temperature in Celsius from CPU sensor\n"
-    template += "# TYPE cpu_temp_c untyped\n"
-    template += 'cpu_temp_c{' + instance + 'sensor="cpu",unit="celsius"} ' + str(sensor_data["cpu_temp_c"]) + '\n'
-    template += "# HELP cpu_temp_f Temperature in Fahrenheit from CPU sensor\n"
-    template += "# TYPE cpu_temp_f untyped\n"
-    template += 'cpu_temp_f{' + instance + 'sensor="cpu",unit="fahrenheit"} ' + str(sensor_data["cpu_temp_f"]) + '\n'
+    template += "# HELP core_temp_c Temperature in Celsius from core sensor\n"
+    template += "# TYPE core_temp_c untyped\n"
+    template += 'core_temp_c{' + instance + 'sensor="core",unit="celsius"} ' + str(sensor_data["core_temp_c"]) + '\n'
+    template += "# HELP core_temp_f Temperature in Fahrenheit from core sensor\n"
+    template += "# TYPE core_temp_f untyped\n"
+    template += 'core_temp_f{' + instance + 'sensor="core",unit="fahrenheit"} ' + str(sensor_data["core_temp_f"]) + '\n'
     return template
