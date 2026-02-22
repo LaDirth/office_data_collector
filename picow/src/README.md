@@ -1,5 +1,12 @@
-Created to work on a Raspberry Pi Pico W microcontroller using MicroPython.
+# Microdot based Prometheus Endpoint
 
-Reads i2c sensors, and creates HTTP endpoint with JSON payload with sensor information to be scraped by Prometheus.  This is a limited set of sensors due only using the QWIIC based sensors, not the PMOD based sensors listed in the root bill of materials (BOM).
+[Microdot Repo](https://github.com/miguelgrinberg/microdot/tree/main)
 
-This uses a modified `GurgleApps Web Server` from <https://github.com/gurgleapps/pico-web-server-control>.
+## Microdot install 
+
+<https://microdot.readthedocs.io/en/stable/intro.html#micropython-installation>
+
+## Requirements
+
+Raspberry Pi Pico W
+BME680 board with I2C
