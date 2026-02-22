@@ -4,18 +4,11 @@ global:
 
 # Scrape configuration for Prometheus
 scrape_configs:
-  - job_name: 'json_sensors'
-    metrics_path: /probe
-    params:
-      module: [default]
+  - job_name: 'office'
+    metrics_path: /metrics
     static_configs:
-      - targets:
-          - http://192.168.5.57/data
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: localhost:7979   # json_exporter address
-
+      - targets: [192.168.5.57]
+  - job_name: 'outside-office'
+    metrics_path: /metrics
+    static_configs:
+      - targets: [http://192.168.7.251]

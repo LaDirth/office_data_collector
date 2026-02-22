@@ -32,7 +32,7 @@ I2C_SCL_PIN = 9
 I2C_FREQ = 100000
 BME680_I2C_ADDR = 0x77
 
-# Pico CPU y temperature calibration
+# Pico CPU temperature calibration
 sensor_temp = machine.ADC(4)
 conversion_factor = 3.3 / (65535)
 
